@@ -6,13 +6,11 @@ import (
 )
 
 type CustomerDao interface {
-	Create(Cus *models.Customer) (interface{}, error)
+	Create(Cus *models.Customer) error
 	Read(phone interface{}) (*models.Customer, error)
 	ReadByID(cusID interface{}) (*models.Customer, error)
 	Update(Cus *models.Customer) error
 	Delete(Cus *models.Customer) error
-	DeleteAcc(phone interface{}) error
-	Login(acc *models.Account) (interface{}, error)
 }
 
 type customerDaoImpl struct {
@@ -23,20 +21,12 @@ func NewCustomerDao(db *gorm.DB) CustomerDao {
 	return &customerDaoImpl{db}
 }
 
-func (c *customerDaoImpl) Create(Cus *models.Customer) (interface{}, error) {
-	var Acc models.Account
-	Acc.Phone = Cus.Phone
-	Acc.Password = Cus.Password
-	Acc.Types = model.CustomerTitle
-	if err := c.db.Create(&Acc).Error; err != nil {
-		return nil, err
-	}
-
+func (c *customerDaoImpl) Create(Cus *models.Customer) error {
 	if err := c.db.Create(Cus).Error; err != nil {
-		return nil, err
+		return err
 	}
 
-	return nil, nil
+	return nil
 }
 
 func (c *customerDaoImpl) Read(phone interface{}) (*models.Customer, error) {
@@ -60,12 +50,4 @@ func (c *customerDaoImpl) Update(Cus *models.Customer) error {
 func (c *customerDaoImpl) Delete(Cus *models.Customer) error {
 	c.db.Exec(`DELETE FROM customers WHERE ID = ? AND Phone = ?`, Cus.ID, Cus.Phone)
 	return nil
-}
-
-func (c *customerDaoImpl) DeleteAcc(phone interface{}) error {
-	return deleteAcc(c.db, phone)
-}
-
-func (c *customerDaoImpl) Login(acc *model.Account) (interface{}, error) {
-	return login(c.db, acc)
 }

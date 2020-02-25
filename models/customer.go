@@ -2,7 +2,7 @@ package models
 
 // Customer who want to rent car
 type Customer struct {
-	ID        int    `gorm:"column:id;primary_key"`
+	ID        int64  `gorm:"column:id;primary_key"`
 	FirstName string `gorm:"column:first_name;not null"`
 	LastName  string `gorm:"column:last_name;not null"`
 	Email     string `gorm:"column:email"`
