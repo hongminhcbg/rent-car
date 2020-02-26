@@ -1,0 +1,6 @@
+DROP TABLE IF EXISTS `accounts`;
+CREATE TABLE `accounts` (
+    id BIGINT(20) NOT NULL AUTO_INCREMENT PRIMARY KEY,
+    phone VARCHAR(16) UNIQUE NOT NULL,
+    password VARCHAR(32)
+);

@@ -7,7 +7,7 @@ import (
 )
 
 func main() {
-	config := &conf.MySQL{URL: `root:1@tcp(localhost:3306)/testdb?parseTime=true`}
+	config := &conf.MySQL{URL: `root:1@tcp(localhost:3306)/rentcar?parseTime=true`}
 	router := routers.NewRouter(config)
 	engine, err := router.InitGin()
 	if err != nil {

@@ -35,7 +35,11 @@ func (router *Router)InitGin() (*gin.Engine, error) {
 	userController := controllers.UserController{UserService:providerService.GetUserService(),}
 
 	engine := gin.Default()
-	engine.POST("/api/v1/cutomer", userController.CreateCustomer)
+	base := engine.Group("/api/v1")
+	public := base.Group("/public")
+	{
+		public.POST("/customer", userController.CreateCustomer)
+	}
 
 	return engine, nil
 }
